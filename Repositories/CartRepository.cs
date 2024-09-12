@@ -27,21 +27,20 @@ namespace FoodCart_Hexaware.Repositories
 
         public async Task<Cart> UpdateCartItemAsync(Cart cart)
         {
-            var existingCartItem = await _context.Carts.Include(c => c.MenuItems).FirstOrDefaultAsync(c => c.CartID == cart.CartID);
-
-            if (existingCartItem == null)
+            var existingCart = await _context.Carts.FindAsync(cart.CartID);
+            if (existingCart == null)
             {
                 throw new KeyNotFoundException($"Cart item with ID {cart.CartID} not found.");
             }
-            existingCartItem.Quantity = cart.Quantity;
-            existingCartItem.TotalCost = cart.Quantity * existingCartItem.MenuItems.ItemPrice;
-            existingCartItem.UpdatedAt = DateTime.Now;
 
-            _context.Carts.Update(existingCartItem);
+            existingCart.Quantity = cart.Quantity;
+            existingCart.TotalCost = cart.TotalCost;
+            existingCart.UpdatedAt = cart.UpdatedAt;
+
             await _context.SaveChangesAsync();
-
-            return existingCartItem;
+            return existingCart;
         }
+
 
         public async Task<bool> RemoveCartItemAsync(int cartId)
         {
@@ -65,8 +64,10 @@ namespace FoodCart_Hexaware.Repositories
 
         public async Task<Cart> GetCartItemByIdAsync(int cartId)
         {
-            return await _context.Carts.Include(c => c.MenuItems).FirstOrDefaultAsync(c => c.CartID == cartId);
+            return await _context.Carts
+                .FirstOrDefaultAsync(c => c.CartID == cartId);
         }
+
 
         public async Task<IEnumerable<Cart>> GetCartItemsByUserIdAsync(int userId)
         {

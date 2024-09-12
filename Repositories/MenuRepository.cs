@@ -17,6 +17,7 @@ namespace FoodCart_Hexaware.Repositories
             return await _context.Menus.Include(mi => mi.Restaurants).ToListAsync();
         }
 
+
         public async Task<MenuItems?> GetMenuItembyId(int id)
         {
             return await _context.Menus.Include(mi => mi.Restaurants).FirstOrDefaultAsync(mi => mi.ItemID == id);
@@ -91,30 +92,25 @@ namespace FoodCart_Hexaware.Repositories
         }
         public async Task<MenuItems> LinkMenuItemToRestaurant(int menuitemId, int restaurantId)
         {
-
-            var menu = await _context.Menus.Include(mi => mi.Restaurants).FirstOrDefaultAsync(mi => mi.ItemID == menuitemId);
+            var menu = await _context.Menus.Include(mi => mi.Restaurants)
+                                           .FirstOrDefaultAsync(mi => mi.ItemID == menuitemId);
 
             var restaurant = await _context.Restaurants.FirstOrDefaultAsync(r => r.RestaurantID == restaurantId);
-
 
             if (menu == null || restaurant == null)
             {
                 throw new ArgumentException("Menu item or restaurant not found.");
             }
 
-
             if (!menu.Restaurants.Contains(restaurant))
             {
-
                 menu.Restaurants.Add(restaurant);
-
-
                 await _context.SaveChangesAsync();
             }
 
-
             return menu;
         }
+
 
 
     }

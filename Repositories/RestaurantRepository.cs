@@ -31,9 +31,17 @@ namespace FoodCart_Hexaware.Repositories
 
         public async Task UpdateRestaurantAsync(Restaurant restaurant)
         {
-            _context.Entry(restaurant).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            var existingRestaurant = await _context.Restaurants
+                .AsNoTracking()
+                .FirstOrDefaultAsync(r => r.RestaurantID == restaurant.RestaurantID);
+
+            if (existingRestaurant != null)
+            {
+                _context.Entry(restaurant).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
         }
+
 
         public async Task DeleteRestaurantAsync(int id)
         {

@@ -1184,6 +1184,54 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "FoodCart_Hexaware.Controllers.RestaurantAuthController",
+    "Method": "Delete",
+    "RelativePath": "api/RestaurantAuth/Delete/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodCart_Hexaware.Controllers.UserAuthController",
+    "Method": "Create",
+    "RelativePath": "api/UserAuth/Create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "FoodCart_Hexaware.DTO.UserDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodCart_Hexaware.Controllers.UserAuthController",
+    "Method": "Delete",
+    "RelativePath": "api/UserAuth/Delete/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "FoodCart_Hexaware.Controllers.UserProfileController",
     "Method": "GetUserProfile",
     "RelativePath": "api/UserProfile/{id}",

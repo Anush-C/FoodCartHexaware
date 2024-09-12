@@ -42,6 +42,6 @@ namespace FoodCart_Hexaware.Models
         [JsonIgnore]
         public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
 
-
+       
     }
 }
