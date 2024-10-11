@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace FoodCart_Hexaware.Models
 {
@@ -26,7 +27,7 @@ namespace FoodCart_Hexaware.Models
         [Required]
         public bool IsAvailable { get; set; } // Indicates if the agent is currently available
 
-
+        [JsonIgnore]
 
         public ICollection<Orders> Orders { get; set; } = new List<Orders>();
     }

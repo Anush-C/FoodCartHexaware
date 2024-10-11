@@ -7,32 +7,34 @@ namespace FoodCart_Hexaware.Services
 {
     public interface IRestaurantService
     {
-        // Fetch the dashboard data for a restaurant owned by the user
+        // Fetch the dashboard data 
         DashBoardDTO GetDashboardData(int userId);
 
-        // Add a new menu item to the restaurant
+        Task<Restaurant> GetRestaurantByIdAsync(int restaurantId);
+
+        // Add a new menu item 
         void AddMenuItem(int userId, MenuItemDTO menuItemDTO);
 
-        // Get all menu items for a specific restaurant
+        // Get all menu items 
         IEnumerable<MenuItemDTO> GetMenuItems(int restaurantId);
 
         // Update an existing menu item
         void UpdateMenuItem(int userId, int itemId, MenuItemDTO menuItemDTO);
 
-        // Delete a menu item by its ID
+        // Delete a menu item
         void DeleteMenuItem(int userId, int itemId);
 
         // Fetch restaurant information for a user
         Restaurant GetRestaurantByUserId(int userId);
 
-        // Fetch all categories for a restaurant
+        // Fetch all categories 
         List<CategoryDTO> GetCategories(int restaurantId);
 
-        // Add a new category to the restaurant
-        void AddCategory(int restaurantId, CategoryDTO categoryDTO);
+        // Add a new category
+        MenuCategory AddCategory(int restaurantId, MenuCategoryDTO menuCategoryDTO);
 
         // Update an existing category
-        void UpdateCategory(int restaurantId, int categoryId, CategoryDTO categoryDTO);
+        void UpdateCategory(int restaurantId, int categoryId, EditCategoryDTO editCategoryDTO);
 
         // Delete a category by its ID
         void DeleteCategory(int restaurantId, int categoryId);
@@ -46,6 +48,7 @@ namespace FoodCart_Hexaware.Services
         // Get details of a specific order
         OrderDTO GetOrderDetails(int userId, int orderId);
 
+        //Mark menu availability as OUT OF STOCK
         void MarkMenuItemAsOutOfStock(int userId, int itemId);
     }
 }

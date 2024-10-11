@@ -255,3 +255,17 @@ C:\Users\anush\source\repos\FoodCart_Hexaware\FoodCart_Hexaware\obj\Debug\net8.0
 C:\Users\anush\source\repos\FoodCart_Hexaware\FoodCart_Hexaware\obj\Debug\net8.0\FoodCart_Hexaware.genruntimeconfig.cache
 C:\Users\anush\source\repos\FoodCart_Hexaware\FoodCart_Hexaware\obj\Debug\net8.0\ref\FoodCart_Hexaware.dll
 C:\Users\anush\source\repos\FoodCart_Hexaware\FoodCart_Hexaware\obj\Debug\net8.0\FoodCart_Hexaware.sourcelink.json
+C:\Users\anush\source\repos\FoodCart_Hexaware\FoodCart_Hexaware\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+C:\Users\anush\source\repos\FoodCart_Hexaware\FoodCart_Hexaware\bin\Debug\net8.0\MailKit.dll
+C:\Users\anush\source\repos\FoodCart_Hexaware\FoodCart_Hexaware\bin\Debug\net8.0\MimeKit.dll
+C:\Users\anush\source\repos\FoodCart_Hexaware\FoodCart_Hexaware\bin\Debug\net8.0\System.Formats.Asn1.dll
+C:\Users\anush\source\repos\FoodCart_Hexaware\FoodCart_Hexaware\bin\Debug\net8.0\Stripe.net.dll
+C:\Users\anush\source\repos\FoodCart_Hexaware\FoodCart_Hexaware\bin\Debug\net8.0\Serilog.dll
+C:\Users\anush\source\repos\FoodCart_Hexaware\FoodCart_Hexaware\bin\Debug\net8.0\Serilog.AspNetCore.dll
+C:\Users\anush\source\repos\FoodCart_Hexaware\FoodCart_Hexaware\bin\Debug\net8.0\Serilog.Extensions.Hosting.dll
+C:\Users\anush\source\repos\FoodCart_Hexaware\FoodCart_Hexaware\bin\Debug\net8.0\Serilog.Extensions.Logging.dll
+C:\Users\anush\source\repos\FoodCart_Hexaware\FoodCart_Hexaware\bin\Debug\net8.0\Serilog.Formatting.Compact.dll
+C:\Users\anush\source\repos\FoodCart_Hexaware\FoodCart_Hexaware\bin\Debug\net8.0\Serilog.Settings.Configuration.dll
+C:\Users\anush\source\repos\FoodCart_Hexaware\FoodCart_Hexaware\bin\Debug\net8.0\Serilog.Sinks.Console.dll
+C:\Users\anush\source\repos\FoodCart_Hexaware\FoodCart_Hexaware\bin\Debug\net8.0\Serilog.Sinks.Debug.dll
+C:\Users\anush\source\repos\FoodCart_Hexaware\FoodCart_Hexaware\bin\Debug\net8.0\Serilog.Sinks.File.dll

@@ -63,14 +63,15 @@ namespace FoodCart_Hexaware.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeliveryAddress")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ItemID")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RestaurantID")
                         .HasColumnType("int");
 
                     b.Property<decimal>("TotalCost")
@@ -85,6 +86,8 @@ namespace FoodCart_Hexaware.Migrations
                     b.HasKey("CartID");
 
                     b.HasIndex("ItemID");
+
+                    b.HasIndex("RestaurantID");
 
                     b.HasIndex("UserID");
 
@@ -353,6 +356,9 @@ namespace FoodCart_Hexaware.Migrations
                     b.Property<decimal>("ItemPrice")
                         .HasColumnType("decimal(18, 2)");
 
+                    b.Property<decimal>("Rating")
+                        .HasColumnType("decimal(18, 1)");
+
                     b.Property<string>("TasteInfo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -376,6 +382,7 @@ namespace FoodCart_Hexaware.Migrations
                             ItemDescription = "Fluffy pancakes served with syrup and butter.",
                             ItemName = "Pancakes",
                             ItemPrice = 5.99m,
+                            Rating = 0m,
                             TasteInfo = "Sweet"
                         },
                         new
@@ -390,6 +397,7 @@ namespace FoodCart_Hexaware.Migrations
                             ItemDescription = "Classic omelette with cheese and vegetables.",
                             ItemName = "Omelette",
                             ItemPrice = 6.49m,
+                            Rating = 0m,
                             TasteInfo = "Savory"
                         },
                         new
@@ -404,6 +412,7 @@ namespace FoodCart_Hexaware.Migrations
                             ItemDescription = "Fresh salad with grilled chicken and vinaigrette.",
                             ItemName = "Grilled Chicken Salad",
                             ItemPrice = 8.99m,
+                            Rating = 0m,
                             TasteInfo = "Savory"
                         },
                         new
@@ -418,6 +427,7 @@ namespace FoodCart_Hexaware.Migrations
                             ItemDescription = "Turkey sandwich with lettuce, tomato, and mayo.",
                             ItemName = "Turkey Sandwich",
                             ItemPrice = 7.49m,
+                            Rating = 0m,
                             TasteInfo = "Savory"
                         },
                         new
@@ -432,6 +442,7 @@ namespace FoodCart_Hexaware.Migrations
                             ItemDescription = "Grilled steak served with mashed potatoes and vegetables.",
                             ItemName = "Steak Dinner",
                             ItemPrice = 15.99m,
+                            Rating = 0m,
                             TasteInfo = "Savory"
                         },
                         new
@@ -446,6 +457,7 @@ namespace FoodCart_Hexaware.Migrations
                             ItemDescription = "Layered pasta with meat sauce and cheese.",
                             ItemName = "Lasagna",
                             ItemPrice = 14.49m,
+                            Rating = 0m,
                             TasteInfo = "Savory"
                         },
                         new
@@ -460,6 +472,7 @@ namespace FoodCart_Hexaware.Migrations
                             ItemDescription = "Beef patty with cheese, lettuce, and tomato.",
                             ItemName = "Cheeseburger",
                             ItemPrice = 9.99m,
+                            Rating = 0m,
                             TasteInfo = "Savory"
                         },
                         new
@@ -474,6 +487,7 @@ namespace FoodCart_Hexaware.Migrations
                             ItemDescription = "Vegetarian burger with grilled vegetables and cheese.",
                             ItemName = "Veggie Burger",
                             ItemPrice = 8.49m,
+                            Rating = 0m,
                             TasteInfo = "Savory"
                         },
                         new
@@ -488,6 +502,7 @@ namespace FoodCart_Hexaware.Migrations
                             ItemDescription = "Classic pizza with tomato sauce and mozzarella cheese.",
                             ItemName = "Margherita Pizza",
                             ItemPrice = 11.99m,
+                            Rating = 0m,
                             TasteInfo = "Savory"
                         },
                         new
@@ -502,6 +517,7 @@ namespace FoodCart_Hexaware.Migrations
                             ItemDescription = "Pizza with pepperoni and cheese.",
                             ItemName = "Pepperoni Pizza",
                             ItemPrice = 12.99m,
+                            Rating = 0m,
                             TasteInfo = "Savory"
                         },
                         new
@@ -516,6 +532,7 @@ namespace FoodCart_Hexaware.Migrations
                             ItemDescription = "Spaghetti with creamy carbonara sauce and pancetta.",
                             ItemName = "Spaghetti Carbonara",
                             ItemPrice = 13.99m,
+                            Rating = 0m,
                             TasteInfo = "Savory"
                         },
                         new
@@ -530,6 +547,7 @@ namespace FoodCart_Hexaware.Migrations
                             ItemDescription = "Fettuccine pasta with creamy Alfredo sauce and chicken.",
                             ItemName = "Chicken Alfredo",
                             ItemPrice = 14.49m,
+                            Rating = 0m,
                             TasteInfo = "Savory"
                         },
                         new
@@ -544,6 +562,7 @@ namespace FoodCart_Hexaware.Migrations
                             ItemDescription = "Spiced chicken wrapped in pita with vegetables.",
                             ItemName = "Chicken Shawarma",
                             ItemPrice = 10.99m,
+                            Rating = 0m,
                             TasteInfo = "Savory"
                         },
                         new
@@ -558,6 +577,7 @@ namespace FoodCart_Hexaware.Migrations
                             ItemDescription = "Deep-fried chickpea balls with tahini sauce.",
                             ItemName = "Falafel",
                             ItemPrice = 8.49m,
+                            Rating = 0m,
                             TasteInfo = "Savory"
                         },
                         new
@@ -572,6 +592,7 @@ namespace FoodCart_Hexaware.Migrations
                             ItemDescription = "Crispy spring rolls filled with vegetables.",
                             ItemName = "Spring Rolls",
                             ItemPrice = 6.99m,
+                            Rating = 0m,
                             TasteInfo = "Savory"
                         },
                         new
@@ -586,6 +607,7 @@ namespace FoodCart_Hexaware.Migrations
                             ItemDescription = "Toasted bread with garlic and herbs.",
                             ItemName = "Garlic Bread",
                             ItemPrice = 5.49m,
+                            Rating = 0m,
                             TasteInfo = "Savory"
                         },
                         new
@@ -600,6 +622,7 @@ namespace FoodCart_Hexaware.Migrations
                             ItemDescription = "Tender beef in a creamy mushroom sauce.",
                             ItemName = "Beef Stroganoff",
                             ItemPrice = 14.99m,
+                            Rating = 0m,
                             TasteInfo = "Savory"
                         },
                         new
@@ -614,6 +637,7 @@ namespace FoodCart_Hexaware.Migrations
                             ItemDescription = "Spicy chicken curry served with rice.",
                             ItemName = "Chicken Curry",
                             ItemPrice = 12.49m,
+                            Rating = 0m,
                             TasteInfo = "Spicy"
                         },
                         new
@@ -628,6 +652,7 @@ namespace FoodCart_Hexaware.Migrations
                             ItemDescription = "Freshly squeezed lemonade.",
                             ItemName = "Lemonade",
                             ItemPrice = 3.99m,
+                            Rating = 0m,
                             TasteInfo = "Sweet"
                         },
                         new
@@ -642,6 +667,7 @@ namespace FoodCart_Hexaware.Migrations
                             ItemDescription = "Chilled coffee with a touch of cream.",
                             ItemName = "Iced Coffee",
                             ItemPrice = 4.49m,
+                            Rating = 0m,
                             TasteInfo = "Bitter"
                         },
                         new
@@ -656,6 +682,7 @@ namespace FoodCart_Hexaware.Migrations
                             ItemDescription = "Rich chocolate cake with a creamy frosting.",
                             ItemName = "Chocolate Cake",
                             ItemPrice = 6.49m,
+                            Rating = 0m,
                             TasteInfo = "Sweet"
                         },
                         new
@@ -670,6 +697,7 @@ namespace FoodCart_Hexaware.Migrations
                             ItemDescription = "Creamy cheesecake with a graham cracker crust.",
                             ItemName = "Cheesecake",
                             ItemPrice = 7.49m,
+                            Rating = 0m,
                             TasteInfo = "Sweet"
                         });
                 });
@@ -1076,6 +1104,21 @@ namespace FoodCart_Hexaware.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("MenuCategoryRestaurant", b =>
+                {
+                    b.Property<int>("MenuCategoriesCategoryID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RestaurantsRestaurantID")
+                        .HasColumnType("int");
+
+                    b.HasKey("MenuCategoriesCategoryID", "RestaurantsRestaurantID");
+
+                    b.HasIndex("RestaurantsRestaurantID");
+
+                    b.ToTable("MenuCategoryRestaurant");
+                });
+
             modelBuilder.Entity("MenuItemsRestaurant", b =>
                 {
                     b.Property<int>("MenuItemsItemID")
@@ -1089,6 +1132,31 @@ namespace FoodCart_Hexaware.Migrations
                     b.HasIndex("RestaurantsRestaurantID");
 
                     b.ToTable("MenuItemsRestaurant");
+                });
+
+            modelBuilder.Entity("PasswordResetToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("PasswordResetToken");
                 });
 
             modelBuilder.Entity("FoodCart_Hexaware.Models.CardPayment", b =>
@@ -1110,6 +1178,12 @@ namespace FoodCart_Hexaware.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("FoodCart_Hexaware.Models.Restaurant", "Restaurant")
+                        .WithMany()
+                        .HasForeignKey("RestaurantID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("FoodCart_Hexaware.Models.Users", "Users")
                         .WithMany("Carts")
                         .HasForeignKey("UserID")
@@ -1117,6 +1191,8 @@ namespace FoodCart_Hexaware.Migrations
                         .IsRequired();
 
                     b.Navigation("MenuItems");
+
+                    b.Navigation("Restaurant");
 
                     b.Navigation("Users");
                 });
@@ -1245,6 +1321,21 @@ namespace FoodCart_Hexaware.Migrations
                     b.Navigation("restaurant");
                 });
 
+            modelBuilder.Entity("MenuCategoryRestaurant", b =>
+                {
+                    b.HasOne("FoodCart_Hexaware.Models.MenuCategory", null)
+                        .WithMany()
+                        .HasForeignKey("MenuCategoriesCategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FoodCart_Hexaware.Models.Restaurant", null)
+                        .WithMany()
+                        .HasForeignKey("RestaurantsRestaurantID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("MenuItemsRestaurant", b =>
                 {
                     b.HasOne("FoodCart_Hexaware.Models.MenuItems", null)
@@ -1258,6 +1349,17 @@ namespace FoodCart_Hexaware.Migrations
                         .HasForeignKey("RestaurantsRestaurantID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PasswordResetToken", b =>
+                {
+                    b.HasOne("FoodCart_Hexaware.Models.Users", "Users")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("FoodCart_Hexaware.Models.DeliveryAgent", b =>

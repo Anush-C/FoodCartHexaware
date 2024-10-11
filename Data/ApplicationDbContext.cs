@@ -15,7 +15,7 @@ namespace FoodCart_Hexaware.Data
         public DbSet<MenuItems> Menus { get; set; }
         public DbSet<MenuCategory> MenuCategories { get; set; }
         public DbSet<Orders> Orders { get; set; }
-        public DbSet<OrderItems> OrderItems { get; set; }
+        public DbSet<OrderItems> OrderItems { get; set; }   
         public DbSet<Cart> Carts { get; set; }
         public DbSet<DeliveryAgent> DeliveryAgents { get; set; }
 
@@ -25,6 +25,8 @@ namespace FoodCart_Hexaware.Data
         public DbSet<NetBankingPayment> NetBankingPayment { get; set; }
         public DbSet<UpiPayment> UpiPayment { get; set; }
         public DbSet<CardPayment> CardPayment { get; set; }
+
+        public DbSet<PasswordResetToken> PasswordResetToken { get; set; }
 
 
 
@@ -157,6 +159,8 @@ namespace FoodCart_Hexaware.Data
         OpeningHours = new TimeSpan(12, 0, 0),  // 12 PM
         ClosingHours = new TimeSpan(22, 0, 0)   // 10 PM
     }
+
+
 );
             modelBuilder.Entity<MenuItems>().HasData(
     // Breakfast
@@ -581,6 +585,9 @@ namespace FoodCart_Hexaware.Data
         IsAvailable = true,
     }
 );
+
+         
+         
 
 
 

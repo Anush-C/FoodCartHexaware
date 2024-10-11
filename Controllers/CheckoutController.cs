@@ -8,21 +8,31 @@ using System.Linq;
 using System.Threading.Tasks;
 using FoodCart_Hexaware.Services;
 using Microsoft.AspNetCore.Authorization;
+using Stripe;
+using Microsoft.Extensions.Logging;
 
 namespace FoodCart_Hexaware.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles ="Customer")]
+    [Authorize(Roles = "Customer")]
     public class CheckoutController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly OrderConfirmationService _orderConfirmationService;
+        private readonly IOrderConfirmationService _orderConfirmation;
+        private readonly IStripeGatewayService _stripeGatewayService;
+        private readonly ILogger<CheckoutController> _logger;
 
-        public CheckoutController(ApplicationDbContext context, OrderConfirmationService orderConfirmationService)
+        public CheckoutController(
+            ApplicationDbContext context,
+            IOrderConfirmationService orderConfirmationService,
+            IStripeGatewayService stripeGateway,
+            ILogger<CheckoutController> logger)
         {
             _context = context;
-            _orderConfirmationService = orderConfirmationService;
+            _orderConfirmation = orderConfirmationService;
+            _stripeGatewayService = stripeGateway;
+            _logger = logger;
         }
 
         [HttpPost("checkout")]
@@ -30,14 +40,20 @@ namespace FoodCart_Hexaware.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogWarning("Invalid model state for CheckoutRequest: {ModelState}", ModelState);
                 return BadRequest(ModelState);
+            }
+
+            if (model.PaymentMethod.ToLower() == "card" && string.IsNullOrEmpty(model.StripePaymentMethodId))
+            {
+                _logger.LogWarning("Payment method ID is empty for user {UserId}", model.UserId);
+                return BadRequest("Payment method ID cannot be empty.");
             }
 
             using (var transaction = await _context.Database.BeginTransactionAsync())
             {
                 try
                 {
-                    
                     var cartItems = await _context.Carts
                         .Where(c => c.UserID == model.UserId)
                         .Include(c => c.MenuItems)
@@ -45,14 +61,16 @@ namespace FoodCart_Hexaware.Controllers
 
                     if (cartItems == null || !cartItems.Any())
                     {
+                        _logger.LogWarning("User {UserId} tried to checkout with an empty cart.", model.UserId);
                         return BadRequest("Your cart is empty.");
                     }
 
-                    var restaurant = await _context.Restaurants .Where(r => r.RestaurantID == model.RestaurantID)
-                                                                .Select(r => r.RestaurantName).FirstOrDefaultAsync();
+                    var restaurant = await _context.Restaurants
+                        .Where(r => r.RestaurantID == model.RestaurantID)
+                        .Select(r => r.RestaurantName)
+                        .FirstOrDefaultAsync();
 
                     var totalPrice = cartItems.Sum(item => item.Quantity * item.MenuItems.ItemPrice);
-
                     var estimatedDeliveryTime = DateTime.Now.AddMinutes(30);
 
                     var order = new Orders
@@ -72,10 +90,9 @@ namespace FoodCart_Hexaware.Controllers
                         }).ToList()
                     };
 
-                    _context.Orders.Add(order);
-                    await _context.SaveChangesAsync(); 
+                    await _context.Orders.AddAsync(order);
+                    await _context.SaveChangesAsync();
 
-                    
                     var payment = new Payment
                     {
                         Amount = totalPrice,
@@ -85,114 +102,95 @@ namespace FoodCart_Hexaware.Controllers
                         OrderID = order.OrderID
                     };
 
-                    _context.Payments.Add(payment);
+                    await _context.Payments.AddAsync(payment);
                     await _context.SaveChangesAsync();
 
-                    
-                    switch (model.PaymentMethod.ToLower())
+                    if (model.PaymentMethod.ToLower() == "card")
                     {
-                        case "card":
-                            if (model.CardPayment != null)
+                        var paymentIntent = await _stripeGatewayService.CreatePaymentIntent(totalPrice, "usd", model.StripePaymentMethodId, "http://localhost:3001/checkout/success");
+
+                        if (paymentIntent.Status == "succeeded")
+                        {
+                            payment.PaymentStatus = "Completed";
+                            _context.Payments.Update(payment);
+                            await _context.SaveChangesAsync();
+                            _logger.LogInformation("Payment succeeded for OrderID {OrderId}", order.OrderID);
+                        }
+                        else if (paymentIntent.Status == "requires_action" || paymentIntent.Status == "requires_confirmation")
+                        {
+                            return Ok(new
                             {
-                                var cardPayment = new CardPayment
-                                {
-                                    CardNumber = model.CardPayment.CardNumber,
-                                    CardHolderName = model.CardPayment.CardHolderName,
-                                    PaymentId = payment.PaymentId
-                                };
-                                _context.CardPayment.Add(cardPayment);
-                            }
-                            break;
-
-                        case "netbanking":
-                            if (model.NetBankingPayment != null)
-                            {
-                                var netBankingPayment = new NetBankingPayment
-                                {
-                                    BankName = model.NetBankingPayment.BankName,
-                                    AccountNumber = model.NetBankingPayment.AccountNumber,
-                                    PaymentId = payment.PaymentId
-                                };
-                                _context.NetBankingPayment.Add(netBankingPayment);
-                            }
-                            break;
-
-                        case "upi":
-                            if (model.UpiPayment != null)
-                            {
-                                var upiPayment = new UpiPayment
-                                {
-                                    UpiId = model.UpiPayment.UpiId,
-                                    PaymentId = payment.PaymentId
-                                };
-                                _context.UpiPayment.Add(upiPayment);
-                            }
-                            break;
-
-                        case "cod":
-                            payment.PaymentStatus = "COD - Pending";
-
-                           
-                            var deliveryAgent = await _context.DeliveryAgents
-                                .Where(da => da.IsAvailable) 
-                                .FirstOrDefaultAsync();
-
-                            if (deliveryAgent == null)
-                            {
-                                return BadRequest("No available delivery agents at the moment.");
-                            }
-
-                           
-                            order.DeliveryAgentID = deliveryAgent.DeliveryAgentID;
-                            _context.Orders.Update(order);
-
-                          
-                            deliveryAgent.IsAvailable = false;
-                            _context.DeliveryAgents.Update(deliveryAgent);
-
-                            break;
-
-                        default:
-                            return BadRequest("Invalid payment method.");
+                                RequiresAction = true,
+                                PaymentIntentId = paymentIntent.Id,
+                                ClientSecret = paymentIntent.ClientSecret
+                            });
+                        }
+                        else
+                        {
+                            payment.PaymentStatus = "Failed";
+                            _context.Payments.Update(payment);
+                            await _context.SaveChangesAsync();
+                            await transaction.RollbackAsync();
+                            _logger.LogWarning("Payment failed for OrderID {OrderId} with status {Status}", order.OrderID, paymentIntent.Status);
+                            return BadRequest("Payment failed.");
+                        }
                     }
 
-
-                    await _context.SaveChangesAsync();
-
-                    
-                    _context.Carts.RemoveRange(cartItems);
-                    await _context.SaveChangesAsync();
-
-
-                    var itemNames = string.Join(", ", cartItems.Select(c => c.MenuItems.ItemName));
-
-                 
-                    await transaction.CommitAsync();
-
-
-                    var userEmail = await _context.Users
-                        .Where(u => u.UserID == model.UserId)
-                        .Select(u => u.Email)
+                    // Assign a delivery agent regardless of payment method (COD or card)
+                    var deliveryAgent = await _context.DeliveryAgents
+                        .Where(da => da.IsAvailable)
                         .FirstOrDefaultAsync();
 
-                    if (!string.IsNullOrEmpty(userEmail))
+                    if (deliveryAgent == null)
                     {
-                        await _orderConfirmationService.SendOrderConfirmationEmailAsync(userEmail, order.OrderID);
+                        _logger.LogWarning("No available delivery agents for OrderID {OrderId}", order.OrderID);
+                        return BadRequest("No available delivery agents at the moment.");
                     }
 
+                    order.DeliveryAgentID = deliveryAgent.DeliveryAgentID;
+                    deliveryAgent.IsAvailable = false;
+
+                    _context.Orders.Update(order);
+                    _context.DeliveryAgents.Update(deliveryAgent);
+                    await _context.SaveChangesAsync();
+
+                    // Commit the transaction after all changes
+                    await transaction.CommitAsync();
+
+                    // Send confirmation email regardless of payment method
+                    var user = await _context.Users.FindAsync(order.UserID);
+                    if (user != null)
+                    {
+                        await _orderConfirmation.SendOrderConfirmationEmailAsync(user.Email, order);
+                    }
+
+                    _logger.LogInformation("Order successfully placed for UserID {UserId}. OrderID: {OrderId}", model.UserId, order.OrderID);
                     return Ok(new
                     {
-                        Message = $"You have successfully ordered {itemNames} from {restaurant}.",
+                        Message = $"You have successfully ordered {string.Join(", ", cartItems.Select(c => c.MenuItems.ItemName))} from {restaurant}.",
                         OrderId = order.OrderID,
-                        EstimatedDeliveryTime = estimatedDeliveryTime
+                        EstimatedDeliveryTime = estimatedDeliveryTime,
+                        Items = order.OrderItems.Select(item => new
+                        {
+                            ItemName = item.ItemID,
+                            Quantity = item.Quantity,
+                            Price = item.Price
+                        }).ToList()
                     });
                 }
                 catch (Exception ex)
                 {
                     await transaction.RollbackAsync();
-                    return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
+                    _logger.LogError(ex, "An error occurred while processing checkout for UserID {UserId}", model.UserId);
+                    return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while processing your request: {ex.Message}");
                 }
             }
+        }
+
+        [HttpGet("checkout/success")]
+        public IActionResult CheckoutSuccess()
+        {
+            return Ok("Payment succeeded!");
         }
     }
 }

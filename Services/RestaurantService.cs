@@ -16,6 +16,18 @@ namespace FoodCart_Hexaware.Services
         {
             _context = context;
         }
+
+
+        public async Task<Restaurant> GetRestaurantByIdAsync(int restaurantId)
+        {
+            // Fetch the restaurant by ID, including MenuItems if necessary
+            var restaurant = await _context.Restaurants
+                .Include(r => r.MenuItems) // Include related menu items if needed
+                .FirstOrDefaultAsync(r => r.RestaurantID == restaurantId);
+
+            return restaurant;
+        }
+
         public DashBoardDTO GetDashboardData(int userId)
         {
             // Fetch restaurant details for the user
@@ -158,14 +170,31 @@ namespace FoodCart_Hexaware.Services
                 {
                     CategoryID = c.CategoryID,
                     CategoryName = c.CategoryName,
-                    Description = c.CategoryDescription
+                    Description = c.CategoryDescription,
+                    MenuItems = c.MenuItems
+                        .Where(m => m.Restaurants.Any(r => r.RestaurantID == restaurantId))
+                        .Select(m => new MenuItemDTO
+                        {
+                            ItemID = m.ItemID,
+                            Name = m.ItemName,
+                            Description = m.ItemDescription,
+                            Price = m.ItemPrice,
+                            Ingredients = m.Ingredients,
+                            CuisineType = m.CuisineType,
+                            DietaryInfo = m.DietaryInfo,
+                            TasteInfo = m.TasteInfo,
+                            AvailabilityStatus= m.AvailabilityStatus,
+                            CategoryID = m.CategoryID
+                        })
+                        .ToList() // Convert to list
                 })
                 .ToList();
 
             return categories;
         }
 
-        public void AddCategory(int restaurantId, CategoryDTO categoryDTO)
+
+        public MenuCategory AddCategory(int restaurantId, MenuCategoryDTO menuCategoryDTO)
         {
             var restaurant = _context.Restaurants
                 .FirstOrDefault(r => r.RestaurantID == restaurantId);
@@ -173,17 +202,20 @@ namespace FoodCart_Hexaware.Services
             if (restaurant == null)
                 throw new KeyNotFoundException("Restaurant not found for the given ID.");
 
-            var category = new MenuCategory
+            // Use menuCategoryDTO to create the new MenuCategory
+            var newCategory = new MenuCategory
             {
-                CategoryName = categoryDTO.CategoryName,
-                CategoryDescription = categoryDTO.Description
+                CategoryName = menuCategoryDTO.CategoryName, // Corrected to use menuCategoryDTO
+                CategoryDescription = menuCategoryDTO.Description // Corrected to use menuCategoryDTO
             };
 
-            _context.MenuCategories.Add(category);
-            _context.SaveChanges();
+            _context.MenuCategories.Add(newCategory);
+            _context.SaveChanges(); // CategoryID will be assigned here
+
+            return newCategory; // Return the created category
         }
 
-        public void UpdateCategory(int restaurantId, int categoryId, CategoryDTO categoryDTO)
+        public void UpdateCategory(int restaurantId, int categoryId, EditCategoryDTO editCategoryDTO)
         {
             var restaurant = _context.Restaurants
                 .FirstOrDefault(r => r.RestaurantID == restaurantId);
@@ -197,11 +229,14 @@ namespace FoodCart_Hexaware.Services
             if (category == null)
                 throw new KeyNotFoundException("Category not found for the given ID.");
 
-            category.CategoryName = categoryDTO.CategoryName;
-            category.CategoryDescription = categoryDTO.Description;
+            // Update category properties
+            category.CategoryName = editCategoryDTO.CategoryName;
+            category.CategoryDescription = editCategoryDTO.Description;
 
+            // Save changes to the database
             _context.SaveChanges();
         }
+
 
         public void DeleteCategory(int restaurantId, int categoryId)
         {
@@ -330,6 +365,5 @@ namespace FoodCart_Hexaware.Services
         }
     }
 }
-
 
 

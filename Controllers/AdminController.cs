@@ -1,8 +1,10 @@
-﻿using FoodCart_Hexaware.Models;
+﻿using FoodCart_Hexaware.DTO;
+using FoodCart_Hexaware.Models;
 using FoodCart_Hexaware.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace FoodCart_Hexaware.Controllers
 {
@@ -15,17 +17,20 @@ namespace FoodCart_Hexaware.Controllers
         private readonly IRestaurantRepository _restaurantRepository;
         private readonly IMenuItemRepository _menuItemrepository;
         private readonly IMenuCategoryRepository _menuCategoryRepository;
+        private readonly ILogger<AdminController> _logger; 
 
         public AdminController(
             IUserRepository userRepository,
             IRestaurantRepository restaurantRepository,
             IMenuItemRepository menuItemRepository,
-            IMenuCategoryRepository menuCategoryRepository)
+            IMenuCategoryRepository menuCategoryRepository,
+            ILogger<AdminController> logger) // Inject logger
         {
             _userRepository = userRepository;
             _restaurantRepository = restaurantRepository;
             _menuItemrepository = menuItemRepository;
             _menuCategoryRepository = menuCategoryRepository;
+            _logger = logger; // Assign logger
         }
 
         [HttpGet("users")]
@@ -33,73 +38,73 @@ namespace FoodCart_Hexaware.Controllers
         {
             try
             {
+                _logger.LogInformation("Fetching all users");
                 var users = await _userRepository.GetAllUsersAsync();
                 return Ok(users);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error occurred while fetching users: {ex.Message}");
                 return StatusCode(500, $"Error occurred while fetching users: {ex.Message}");
             }
         }
 
         [HttpPost("users")]
-        public async Task<ActionResult<Users>> CreateUser(Users user)
+        public async Task<ActionResult<Users>> CreateUser(CreateUserDTO createUserDto)
         {
             try
             {
-                await _userRepository.AddUserAsync(user);
+                _logger.LogInformation("Creating a new user");
+                var user = await _userRepository.CreateUserAsync(createUserDto);
                 return CreatedAtAction(nameof(GetUsers), new { id = user.UserID }, user);
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning($"Validation error while creating user: {ex.Message}");
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error occurred while creating user: {ex.Message}");
                 return StatusCode(500, $"Error occurred while creating user: {ex.Message}");
             }
         }
 
         [HttpPut("users/{id}")]
-        public async Task<IActionResult> UpdateUser(int id, Users user)
+        public async Task<IActionResult> UpdateUser(int id, UpdateUserDTO updateUserDTO)
         {
-            if (id != user.UserID)
+            if (id != updateUserDTO.UserID)
             {
                 return BadRequest("User ID mismatch");
             }
 
             try
             {
-                await _userRepository.UpdateUserAsync(user);
+                _logger.LogInformation($"Updating user with ID {id}");
+                await _userRepository.UpdateUserAsync(updateUserDTO);
                 return Content("Updated");
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error occurred while updating user: {ex.Message}");
                 return StatusCode(500, $"Error occurred while updating user: {ex.Message}");
             }
         }
 
-        [HttpDelete("users/{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
-        {
-            try
-            {
-                await _userRepository.DeleteUserAsync(id);
-                return Content("Deleted");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error occurred while deleting user: {ex.Message}");
-            }
-        }
-
+       
 
         [HttpGet("restaurants")]
         public async Task<ActionResult<IEnumerable<Restaurant>>> GetRestaurants()
         {
             try
             {
+                _logger.LogInformation("Fetching all restaurants");
                 var restaurants = await _restaurantRepository.GetAllRestaurantsAsync();
                 return Ok(restaurants);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error occurred while fetching restaurants: {ex.Message}");
                 return StatusCode(500, $"Error occurred while fetching restaurants: {ex.Message}");
             }
         }
@@ -109,11 +114,13 @@ namespace FoodCart_Hexaware.Controllers
         {
             try
             {
+                _logger.LogInformation("Creating a new restaurant");
                 await _restaurantRepository.AddRestaurantAsync(restaurant);
                 return CreatedAtAction(nameof(GetRestaurants), new { id = restaurant.RestaurantID }, restaurant);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error occurred while creating restaurant: {ex.Message}");
                 return StatusCode(500, $"Error occurred while creating restaurant: {ex.Message}");
             }
         }
@@ -128,11 +135,13 @@ namespace FoodCart_Hexaware.Controllers
 
             try
             {
+                _logger.LogInformation($"Updating restaurant with ID {id}");
                 await _restaurantRepository.UpdateRestaurantAsync(restaurant);
                 return Content("Updated");
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error occurred while updating restaurant: {ex.Message}");
                 return StatusCode(500, $"Error occurred while updating restaurant: {ex.Message}");
             }
         }
@@ -142,11 +151,13 @@ namespace FoodCart_Hexaware.Controllers
         {
             try
             {
+                _logger.LogInformation($"Deleting restaurant with ID {id}");
                 await _restaurantRepository.DeleteRestaurantAsync(id);
                 return Content("Deleted");
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error occurred while deleting restaurant: {ex.Message}");
                 return StatusCode(500, $"Error occurred while deleting restaurant: {ex.Message}");
             }
         }
@@ -156,11 +167,13 @@ namespace FoodCart_Hexaware.Controllers
         {
             try
             {
+                _logger.LogInformation("Fetching all menu items");
                 var menuItems = await _menuItemrepository.GetAllMenuItemsAsync();
                 return Ok(menuItems);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error occurred while retrieving menu items: {ex.Message}");
                 return StatusCode(500, $"Error occurred while retrieving menu items: {ex.Message}");
             }
         }
@@ -170,11 +183,13 @@ namespace FoodCart_Hexaware.Controllers
         {
             try
             {
+                _logger.LogInformation("Creating a new menu item");
                 await _menuItemrepository.AddMenuItemAsync(menuItem);
                 return CreatedAtAction(nameof(GetMenuItems), new { id = menuItem.ItemID }, menuItem);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error occurred while creating menu item: {ex.Message}");
                 return StatusCode(500, $"Error occurred while creating menu item: {ex.Message}");
             }
         }
@@ -189,11 +204,13 @@ namespace FoodCart_Hexaware.Controllers
 
             try
             {
+                _logger.LogInformation($"Updating menu item with ID {id}");
                 await _menuItemrepository.UpdateMenuItemAsync(menuItem);
                 return NoContent();
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error occurred while updating menu item: {ex.Message}");
                 return StatusCode(500, $"Error occurred while updating menu item: {ex.Message}");
             }
         }
@@ -203,40 +220,45 @@ namespace FoodCart_Hexaware.Controllers
         {
             try
             {
+                _logger.LogInformation($"Deleting menu item with ID {id}");
                 await _menuItemrepository.DeleteMenuItemAsync(id);
                 return NoContent();
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error occurred while deleting menu item: {ex.Message}");
                 return StatusCode(500, $"Error occurred while deleting menu item: {ex.Message}");
             }
         }
-
-
 
         [HttpGet("AllCategories")]
         public async Task<ActionResult<IEnumerable<MenuCategory>>> GetCategories()
         {
             try
             {
+                _logger.LogInformation("Fetching all categories");
                 var categories = await _menuCategoryRepository.GetAllCategoriesAsync();
                 return Ok(categories);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error occurred while retrieving categories: {ex.Message}");
                 return StatusCode(500, $"Error occurred while retrieving categories: {ex.Message}");
             }
         }
+
         [HttpPost("categories")]
         public async Task<ActionResult<MenuCategory>> CreateCategory(MenuCategory category)
         {
             try
             {
+                _logger.LogInformation("Creating a new menu category");
                 await _menuCategoryRepository.AddCategoryAsync(category);
                 return CreatedAtAction(nameof(GetCategories), new { id = category.CategoryID }, category);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error occurred while creating menu category: {ex.Message}");
                 return StatusCode(500, $"Error occurred while creating menu category: {ex.Message}");
             }
         }
@@ -246,16 +268,18 @@ namespace FoodCart_Hexaware.Controllers
         {
             if (id != category.CategoryID)
             {
-                return BadRequest("Category ID mismatch");
+                return BadRequest("Menu Category ID mismatch");
             }
 
             try
             {
+                _logger.LogInformation($"Updating menu category with ID {id}");
                 await _menuCategoryRepository.UpdateCategoryAsync(category);
-                return Content("Updated");
+                return NoContent();
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error occurred while updating menu category: {ex.Message}");
                 return StatusCode(500, $"Error occurred while updating menu category: {ex.Message}");
             }
         }
@@ -265,11 +289,13 @@ namespace FoodCart_Hexaware.Controllers
         {
             try
             {
+                _logger.LogInformation($"Deleting menu category with ID {id}");
                 await _menuCategoryRepository.DeleteCategoryAsync(id);
-                return Content("Deleted");
+                return NoContent();
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error occurred while deleting menu category: {ex.Message}");
                 return StatusCode(500, $"Error occurred while deleting menu category: {ex.Message}");
             }
         }

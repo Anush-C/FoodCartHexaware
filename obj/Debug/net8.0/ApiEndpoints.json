@@ -277,8 +277,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "user",
-        "Type": "FoodCart_Hexaware.Models.Users",
+        "Name": "createUserDto",
+        "Type": "FoodCart_Hexaware.DTO.CreateUserDTO",
         "IsRequired": true
       }
     ],
@@ -308,24 +308,8 @@
         "IsRequired": true
       },
       {
-        "Name": "user",
-        "Type": "FoodCart_Hexaware.Models.Users",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "FoodCart_Hexaware.Controllers.AdminController",
-    "Method": "DeleteUser",
-    "RelativePath": "api/Admin/users/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
+        "Name": "updateUserDTO",
+        "Type": "FoodCart_Hexaware.DTO.UpdateUserDTO",
         "IsRequired": true
       }
     ],
@@ -389,7 +373,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[FoodCart_Hexaware.Models.Cart, FoodCart_Hexaware, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[FoodCart_Hexaware.DTO.CartDTO, FoodCart_Hexaware, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -448,6 +432,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "FoodCart_Hexaware.Controllers.CartsController",
+    "Method": "GetCartItemsByUserId",
+    "RelativePath": "api/Carts/UserCart/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "FoodCart_Hexaware.Controllers.CheckoutController",
     "Method": "Checkout",
     "RelativePath": "api/Checkout/checkout",
@@ -458,6 +458,136 @@
       {
         "Name": "model",
         "Type": "FoodCart_Hexaware.DTO.CheckoutRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodCart_Hexaware.Controllers.CheckoutController",
+    "Method": "CheckoutSuccess",
+    "RelativePath": "api/Checkout/checkout/success",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodCart_Hexaware.Controllers.DeliveryAgentsController",
+    "Method": "GetAllOrders",
+    "RelativePath": "api/DeliveryAgents",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodCart_Hexaware.Controllers.DeliveryAgentsController",
+    "Method": "GetAgentById",
+    "RelativePath": "api/DeliveryAgents/{agentId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "agentId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodCart_Hexaware.Controllers.DeliveryAgentsController",
+    "Method": "UpdateAvailability",
+    "RelativePath": "api/DeliveryAgents/{id}/updateAvailability",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "isAvailable",
+        "Type": "System.Boolean",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodCart_Hexaware.Controllers.DeliveryAgentsController",
+    "Method": "AssignAgent",
+    "RelativePath": "api/DeliveryAgents/{orderId}/assignAgent/{agentId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "agentId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodCart_Hexaware.Controllers.DeliveryAgentsController",
+    "Method": "GetAllAgents",
+    "RelativePath": "api/DeliveryAgents/allagents",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodCart_Hexaware.Controllers.DeliveryAgentsController",
+    "Method": "GetAvailableAgent",
+    "RelativePath": "api/DeliveryAgents/available",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodCart_Hexaware.Controllers.ForgotPasswordController",
+    "Method": "RequestPasswordReset",
+    "RelativePath": "api/ForgotPassword/request-reset",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "forgotPasswordDTO",
+        "Type": "FoodCart_Hexaware.DTO.ForgotPasswordDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodCart_Hexaware.Controllers.ForgotPasswordController",
+    "Method": "ResetPassword",
+    "RelativePath": "api/ForgotPassword/reset-password",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "resetPasswordDTO",
+        "Type": "FoodCart_Hexaware.DTO.ResetPasswordDTO",
         "IsRequired": true
       }
     ],
@@ -730,6 +860,27 @@
   },
   {
     "ContainingType": "FoodCart_Hexaware.Controllers.MenusController",
+    "Method": "LinkMenuItemToRestaurant",
+    "RelativePath": "api/Menus/{restaurantId}/menuitem/{menuItemId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "restaurantId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "menuItemId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodCart_Hexaware.Controllers.MenusController",
     "Method": "GetMenuItemsbyAvailability",
     "RelativePath": "api/Menus/byAvailability",
     "HttpMethod": "GET",
@@ -802,6 +953,42 @@
   },
   {
     "ContainingType": "FoodCart_Hexaware.Controllers.MenusController",
+    "Method": "GetMenuByFilters",
+    "RelativePath": "api/Menus/byFilters",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "type",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "category",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "cuisine",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "minPrice",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "maxPrice",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodCart_Hexaware.Controllers.MenusController",
     "Method": "GetMenuItembyName",
     "RelativePath": "api/Menus/byName",
     "HttpMethod": "GET",
@@ -859,41 +1046,37 @@
   },
   {
     "ContainingType": "FoodCart_Hexaware.Controllers.MenusController",
-    "Method": "GetMenuItemsByFilters",
-    "RelativePath": "api/Menus/Filter",
+    "Method": "GetMenuItemsByRestaurant",
+    "RelativePath": "api/Menus/byRestaurant/{restaurantId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "type",
-        "Type": "System.String",
-        "IsRequired": false
-      },
+        "Name": "restaurantId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodCart_Hexaware.Controllers.MenusController",
+    "Method": "GetMenuItemsByLocation",
+    "RelativePath": "api/Menus/Location",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
       {
-        "Name": "category",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "minprice",
-        "Type": "System.Nullable\u00601[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "maxprice",
-        "Type": "System.Nullable\u00601[[System.Decimal, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-        "IsRequired": false
-      },
-      {
-        "Name": "cuisine",
+        "Name": "location",
         "Type": "System.String",
         "IsRequired": false
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[FoodCart_Hexaware.Models.MenuItems, FoodCart_Hexaware, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[FoodCart_Hexaware.Models.Restaurant, FoodCart_Hexaware, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -905,28 +1088,49 @@
   },
   {
     "ContainingType": "FoodCart_Hexaware.Controllers.MenusController",
-    "Method": "LinkMenuItemToRestaurant",
-    "RelativePath": "api/Menus/link/{menuItemId}/{restaurantId}",
-    "HttpMethod": "POST",
+    "Method": "GetMenuItemById",
+    "RelativePath": "api/Menus/other/{id}",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "menuItemId",
+        "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
-      },
+      }
+    ],
+    "ReturnTypes": [
       {
-        "Name": "restaurantId",
-        "Type": "System.Int32",
-        "IsRequired": true
+        "Type": "FoodCart_Hexaware.DTO.ItemCartDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "FoodCart_Hexaware.Controllers.MenusController",
+    "Method": "GetRestaurantsByAddress",
+    "RelativePath": "api/Menus/restaurants",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "address",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "FoodCart_Hexaware.Controllers.MenusController",
-    "Method": "GetMenuItemsbySearch",
+    "Method": "GetMenuItemsBySearch",
     "RelativePath": "api/Menus/Search",
     "HttpMethod": "GET",
     "IsController": true,
@@ -938,9 +1142,110 @@
         "IsRequired": false
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodCart_Hexaware.Controllers.OrdersController",
+    "Method": "GetOrder",
+    "RelativePath": "api/Orders/{orderId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodCart_Hexaware.Controllers.OrdersController",
+    "Method": "AssignDeliveryAgent",
+    "RelativePath": "api/Orders/assign-delivery/{orderId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "agentId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodCart_Hexaware.Controllers.OrdersController",
+    "Method": "CancelOrder",
+    "RelativePath": "api/Orders/cancel/{orderId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodCart_Hexaware.Controllers.OrdersController",
+    "Method": "GetOrderConfirmation",
+    "RelativePath": "api/Orders/confirmation/{orderId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodCart_Hexaware.Controllers.OrdersController",
+    "Method": "GetOrdersByUser",
+    "RelativePath": "api/Orders/user/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodCart_Hexaware.Controllers.RestaurantController",
+    "Method": "GetRestaurant",
+    "RelativePath": "api/Restaurant/{restaurantId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "restaurantId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[FoodCart_Hexaware.Models.MenuItems, FoodCart_Hexaware, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "FoodCart_Hexaware.Models.Restaurant",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -975,8 +1280,13 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "categoryDTO",
-        "Type": "FoodCart_Hexaware.DTOs.CategoryDTO",
+        "Name": "restaurantId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "menuCategoryDTO",
+        "Type": "FoodCart_Hexaware.DTO.MenuCategoryDTO",
         "IsRequired": true
       }
     ],
@@ -991,13 +1301,18 @@
     "Order": 0,
     "Parameters": [
       {
+        "Name": "restaurantId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
         "Name": "categoryId",
         "Type": "System.Int32",
         "IsRequired": true
       },
       {
-        "Name": "categoryDTO",
-        "Type": "FoodCart_Hexaware.DTOs.CategoryDTO",
+        "Name": "editCategoryDTO",
+        "Type": "FoodCart_Hexaware.DTO.EditCategoryDTO",
         "IsRequired": true
       }
     ],
@@ -1011,6 +1326,11 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [
+      {
+        "Name": "restaurantId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
       {
         "Name": "categoryId",
         "Type": "System.Int32",
@@ -1128,8 +1448,8 @@
         "IsRequired": true
       },
       {
-        "Name": "status",
-        "Type": "System.String",
+        "Name": "request",
+        "Type": "FoodCart_Hexaware.DTO.UpdateRequestDTO",
         "IsRequired": true
       }
     ],
@@ -1198,6 +1518,32 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodCart_Hexaware.Controllers.Top_RatedItemsController",
+    "Method": "GetTopRatedMenuItemsWithDetails",
+    "RelativePath": "api/Top_RatedItems/byTopRatedItems",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "topN",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[FoodCart_Hexaware.DTO.UIMenuDTO, FoodCart_Hexaware, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "FoodCart_Hexaware.Controllers.UserAuthController",
@@ -1280,22 +1626,6 @@
   },
   {
     "ContainingType": "FoodCart_Hexaware.Controllers.UserProfileController",
-    "Method": "DeleteUserProfile",
-    "RelativePath": "api/UserProfile/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "FoodCart_Hexaware.Controllers.UserProfileController",
     "Method": "ChangeEmail",
     "RelativePath": "api/UserProfile/ChangeEmail/{id}",
     "HttpMethod": "PUT",
@@ -1335,6 +1665,48 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodCart_Hexaware.Controllers.UserProfileController",
+    "Method": "DeleteUserProfile",
+    "RelativePath": "api/UserProfile/delete/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FoodCart_Hexaware.Controllers.UserProfileController",
+    "Method": "GetUserOrders",
+    "RelativePath": "api/UserProfile/orders/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "FoodCart_Hexaware.Controllers.UserProfileController",

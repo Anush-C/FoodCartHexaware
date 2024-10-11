@@ -1,4 +1,5 @@
 ﻿using FoodCart_Hexaware.Data;
+using FoodCart_Hexaware.DTO;
 using FoodCart_Hexaware.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,17 +14,79 @@ namespace FoodCart_Hexaware.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Cart>> GetAllCartItemsAsync()
+        public async Task<List<CartDTO>> GetAllCartsAsync()
         {
-            return await _context.Carts.ToListAsync();
+            return await _context.Carts
+                .Select(c => new CartDTO
+                {
+                    CartID = c.CartID,
+                    Quantity = c.Quantity,
+                    DeliveryAddress = c.DeliveryAddress,
+                    TotalCost = c.Quantity * c.MenuItems.ItemPrice, // Calculate total cost based on quantity and item price
+                    CreatedAt = c.CreatedAt,
+                    UpdatedAt = c.UpdatedAt,
+                    ItemID = c.ItemID,
+                    UserID = c.UserID,
+                    ItemName = c.MenuItems.ItemName, // Assuming MenuItems has ItemName property
+                    RestaurantName = c.MenuItems.Restaurants.FirstOrDefault().RestaurantName // Get the first restaurant name
+                })
+                .ToListAsync();
+        }
+      
+
+
+
+        public async Task<Cart> AddToCartAsync(AddToCartDTO addToCartDto)
+        {
+            // Fetch the menu item including its associated restaurants
+            var menuItem = await _context.Menus
+                .Include(mi => mi.Restaurants)
+                .FirstOrDefaultAsync(mi => mi.ItemID == addToCartDto.ItemID);
+
+            if (menuItem == null)
+            {
+                throw new Exception("Menu item not found.");
+            }
+
+            // Check if the menu item belongs to the specified restaurant
+            var restaurantExists = menuItem.Restaurants.Any(r => r.RestaurantID == addToCartDto.RestaurantID);
+
+            if (!restaurantExists)
+            {
+                throw new Exception("Menu item does not belong to the specified restaurant.");
+            }
+
+            // Check if the item already exists in the user's cart
+            var existingCartItem = await _context.Carts
+                .FirstOrDefaultAsync(c => c.UserID == addToCartDto.UserID && c.ItemID == addToCartDto.ItemID);
+
+            if (existingCartItem != null)
+            {
+                // If the item already exists, update the quantity
+                existingCartItem.Quantity += addToCartDto.Quantity;
+                _context.Carts.Update(existingCartItem);
+            }
+            else
+            {
+                // Create a new Cart object with the data from the DTO
+                var cart = new Cart
+                {
+                    UserID = addToCartDto.UserID,
+                    ItemID = addToCartDto.ItemID,
+                    Quantity = addToCartDto.Quantity
+                  
+                };
+
+                // Add the new cart item to the database
+                await _context.Carts.AddAsync(cart);
+            }
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+
+            return existingCartItem ?? await _context.Carts.FirstOrDefaultAsync(c => c.UserID == addToCartDto.UserID && c.ItemID == addToCartDto.ItemID);
         }
 
-        public async Task<Cart> AddToCartAsync(Cart cart)
-        {
-            await _context.Carts.AddAsync(cart);
-            await _context.SaveChangesAsync();
-            return cart;
-        }
 
         public async Task<Cart> UpdateCartItemAsync(Cart cart)
         {

@@ -1,0 +1,76 @@
+/* WelcomePage.css */
+
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif; /* Change this to your preferred font */
+  }
+  
+  .welcome-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #ffcc00, #ff6699);
+    color: #fff; /* Text color */
+    position: relative; /* For the background image */
+    overflow: hidden;
+  }
+  
+  .welcome-text {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    animation: fadeIn 1s ease-in-out; /* Animation */
+  }
+  
+  .subtext {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    animation: fadeIn 1.5s ease-in-out; /* Animation */
+  }
+  
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #ffcc00; /* Spinner color */
+    animation: spin 1s ease-in-out infinite;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .welcome-text {
+      font-size: 2rem; /* Smaller font size on mobile */
+    }
+  
+    .subtext {
+      font-size: 1.2rem; /* Smaller subtext on mobile */
+    }
+  
+    .spinner {
+      width: 40px; /* Smaller spinner on mobile */
+      height: 40px; /* Smaller spinner on mobile */
+    }
+  }
+  

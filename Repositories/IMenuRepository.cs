@@ -1,4 +1,5 @@
-﻿using FoodCart_Hexaware.Models;
+﻿using FoodCart_Hexaware.DTO;
+using FoodCart_Hexaware.Models;
 
 namespace FoodCart_Hexaware.Repositories
 {
@@ -15,6 +16,12 @@ namespace FoodCart_Hexaware.Repositories
 
         Task<IEnumerable<MenuItems>> GetMenuItemsByFilters(string? type, string? category, decimal? minprice, decimal? maxprice, string? cuisine);
 
-        Task<MenuItems> LinkMenuItemToRestaurant(int menuItemId, int restaurantId);
+        Task<IEnumerable<Restaurant>> GetMenuItemsByLocation(string location);
+
+        Task LinkMenuItemToRestaurant(int restaurantId, int menuItemId);
+
+        Task<IEnumerable<MenuItems>> GetMenuItemsByRestaurantId(int restaurantId);
+
+        Task<ItemCartDTO> GetMenuItemNamebyItemId(int id);
     }
 }

@@ -15,6 +15,8 @@ namespace FoodCart_Hexaware.Models
 
         [JsonIgnore]
         public ICollection<MenuItems> MenuItems { get; set; } = new List<MenuItems>();
+        [JsonIgnore]
+        public ICollection<Restaurant> Restaurants { get; set; } = new List<Restaurant>();
 
     }
 }

@@ -36,6 +36,10 @@
 
             public int? DeliveryAgentID { get; set; }
 
+            
+
+
+
 
 
             //Reference Navigation Property

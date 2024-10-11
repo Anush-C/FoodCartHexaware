@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FoodCart_Hexaware")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cba1b3a775e9e167e696e00ec63cbe7313749781")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+757607cc682a72ad00fb4e0ffa07e6244e24011c")]
 [assembly: System.Reflection.AssemblyProductAttribute("FoodCart_Hexaware")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FoodCart_Hexaware")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

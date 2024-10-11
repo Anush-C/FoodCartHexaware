@@ -1,0 +1,42 @@
+* {
+  margin: 100;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden; /* Prevent horizontal overflow */
+}
+
+.container {
+  max-width: 1200px; /* Set a max width for the container */
+  margin: 0 auto; /* Center the container */
+  padding: 0 15px; /* Optional side padding */
+}
+
+.hero, .restaurants, .explore, .customer-reviews {
+  width: 100%; /* Ensure full width */
+  max-width: 1200px; /* Keep it within a max width */
+  margin: 0 auto; /* Center align */
+}
+
+/* Example styles for individual components */
+.hero {
+  background-color: #f0f0f0; /* Just for visibility */
+  padding: 20px;
+}
+
+.restaurants {
+  background-color: #e0e0e0; /* Just for visibility */
+  padding: 20px;
+}
+
+.explore {
+  background-color: #d0d0d0; /* Just for visibility */
+  padding: 20px;
+}
+
+.customer-reviews {
+  background-color: #c0c0c0; /* Just for visibility */
+  padding: 20px;
+}

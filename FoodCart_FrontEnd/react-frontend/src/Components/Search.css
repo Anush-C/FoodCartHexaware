@@ -1,0 +1,114 @@
+/* Search.css */
+
+/* Wrapper class to center search container without affecting navbar */
+.search-wrapper {
+    display: flex; /* Use flexbox for alignment */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    min-height: 100vh; /* Full viewport height */
+    background-color: #f5f5f5; /* Light background color */
+    padding-top: 60px; /* Adjust this value based on the height of your navbar */
+    animation: fadeIn 0.5s ease-in-out; /* Apply fade-in animation */
+}
+
+/* Centered search container with animation */
+.search-container {
+    padding: 20px; /* Padding for the search container */
+    background-color: #ffffff; /* White background for the search container */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    max-width: 500px; /* Set a fixed max width */
+    width: 100%; /* Full width */
+    animation: slideIn 0.6s ease-out; /* Slide-in animation for the search container */
+}
+
+/* Flexbox for input and button alignment */
+.search-container form {
+    display: flex; /* Flexbox for input and button */
+    gap: 10px; /* Space between input and button */
+    margin-bottom: 20px; /* Space below the form */
+}
+
+/* Input field styling */
+.search-container input {
+    flex: 1; /* Allow input to take full width */
+    padding: 12px; /* Padding inside the input */
+    border: 1px solid #ddd; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Font size for input text */
+}
+
+/* Button styling */
+.search-container button {
+    padding: 12px 18px; /* Padding for the button */
+    background-color: #ff5722; /* Primary color */
+    color: white; /* White text color */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Transition effect */
+    font-size: 16px; /* Font size */
+}
+
+/* Button hover effect */
+.search-container button:hover {
+    background-color: #e64a19; /* Darker shade on hover */
+}
+
+/* Search results styling */
+.search-results {
+    list-style-type: none; /* Remove default list styles */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+}
+
+/* Individual search result styling */
+.search-results li {
+    padding: 10px; /* Padding for each result */
+    border-bottom: 1px solid #ddd; /* Separator line between results */
+}
+
+/* Remove border for the last result */
+.search-results li:last-child {
+    border-bottom: none; /* Remove border for last item */
+}
+
+/* Link styling for results */
+.search-results li a {
+    text-decoration: none; /* Remove underline from links */
+    color: #333; /* Dark color for link text */
+    font-size: 18px; /* Font size for link text */
+}
+
+/* Hover effect for result links */
+.search-results li a:hover {
+    color: #ff5722; /* Change color on hover */
+}
+
+/* Error message styling */
+.error-message {
+    color: #f44336; /* Red color for error message */
+    margin-top: 10px; /* Space above error message */
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0; /* Start invisible */
+    }
+    to {
+        opacity: 1; /* Fade to fully visible */
+    }
+}
+
+/* Slide-in animation */
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px); /* Slide in from above */
+        opacity: 0; /* Start invisible */
+    }
+    to {
+        transform: translateY(0); /* End in place */
+        opacity: 1; /* Fade to fully visible */
+    }
+}

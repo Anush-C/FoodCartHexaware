@@ -1,0 +1,87 @@
+/* Main container styling */
+.container {
+    max-width: 1200px; /* Maximum width for the carousel */
+    margin: 0 auto; /* Center the container */
+    padding: 20px; /* Padding around the container */
+}
+
+/* Carousel header styling */
+.carousel .header {
+    display: flex;
+    justify-content: space-between; /* Space between title and controls */
+    align-items: center; /* Center items vertically */
+    margin-bottom: 20px; /* Margin below the header */
+}
+
+.carousel .title {
+    font-size: 24px; /* Font size for the title */
+    font-weight: bold; /* Bold font weight */
+    color: #333; /* Dark text color */
+}
+
+/* Controls (arrows) styling */
+.controls {
+    display: flex; /* Flexbox layout */
+}
+
+.arrow {
+    cursor: pointer; /* Pointer cursor on hover */
+    padding: 10px; /* Padding around arrows */
+    color: #fff; /* White color for arrows */
+    background-color: #ff3e30; /* Swiggy red color */
+    border-radius: 50%; /* Round buttons */
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+.arrow:hover {
+    background-color: #d82821; /* Darker red on hover */
+}
+
+/* Image container styling */
+.image-container {
+    display: flex; /* Flexbox layout for images */
+    justify-content: space-between; /* Space between images */
+}
+
+/* Adjust restaurant card width for 5 cards in the view */
+.restaurant-card {
+    flex: 1; /* Each card takes equal space */
+    margin: 0 5px; /* Margin between cards */
+    max-width: calc(20% - 10px); /* 20% width minus the margins */
+    cursor: pointer; /* Pointer cursor on hover */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: transform 0.3s; /* Smooth scale transition */
+}
+
+
+.restaurant-card:hover {
+    transform: scale(1.05); /* Slight scale on hover */
+}
+
+/* Image styling */
+.image {
+    width: 100%; /* Full width of the card */
+    border-top-left-radius: 10px; /* Rounded top-left corner */
+    border-top-right-radius: 10px; /* Rounded top-right corner */
+}
+
+/* Restaurant info styling */
+.restaurant-info {
+    padding: 10px; /* Padding inside the card */
+    background-color: #fff; /* White background for info section */
+    border-bottom-left-radius: 10px; /* Rounded bottom-left corner */
+    border-bottom-right-radius: 10px; /* Rounded bottom-right corner */
+}
+
+.restaurant-name {
+    font-size: 18px; /* Font size for restaurant name */
+    font-weight: bold; /* Bold font weight */
+    color: #333; /* Dark text color */
+    margin: 0; /* Remove default margin */
+}
+
+.restaurant-address {
+    font-size: 14px; /* Font size for address */
+    color: #777; /* Lighter gray text color */
+}

@@ -10,5 +10,7 @@ namespace FoodCart_Hexaware.Repositories
         Task UpdateMenuItemAsync(MenuItems menuItem);
         Task DeleteMenuItemAsync(int id);
         Task UpdateAvailabilityStatusAsync(int id, string status);
+        
+
     }
 }

@@ -30,6 +30,10 @@ namespace FoodCart_Hexaware.Models
 
         [Required]
         public string TasteInfo { get; set; }
+        [Required]
+        [Range(0.1, 10000.00, ErrorMessage = "Rating must be a positive value")]
+        [Column(TypeName = "decimal(18, 1)")]
+        public decimal Rating { get; set; }
 
         [Required]
         [StringLength(50)]

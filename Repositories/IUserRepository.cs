@@ -1,4 +1,5 @@
-﻿using FoodCart_Hexaware.Models;
+﻿using FoodCart_Hexaware.DTO;
+using FoodCart_Hexaware.Models;
 
 namespace FoodCart_Hexaware.Repositories
 {
@@ -6,8 +7,8 @@ namespace FoodCart_Hexaware.Repositories
     {
         Task<IEnumerable<Users>> GetAllUsersAsync();
         Task<Users> GetUserByIdAsync(int id);
-        Task AddUserAsync(Users user);
-        Task UpdateUserAsync(Users user);
+        Task<Users> CreateUserAsync(CreateUserDTO createUserDto);
+        Task UpdateUserAsync(UpdateUserDTO updateUserDto);
         Task DeleteUserAsync(int id);
     }
 }

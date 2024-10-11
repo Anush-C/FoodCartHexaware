@@ -1,0 +1,29 @@
+
+.about-us-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+  }
+  
+  .about-us-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .about-us-container p {
+    margin-bottom: 15px;
+  }
+  
+  .about-us-container h2 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .about-us-container ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    margin-bottom: 15px;
+  }
+  

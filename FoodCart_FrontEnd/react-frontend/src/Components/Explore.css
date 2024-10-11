@@ -1,0 +1,70 @@
+.explore-container {
+    background-color: #fff; /* Background color */
+    border: 1px solid #ddd; /* Light gray border */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px; /* Inner spacing */
+    margin: 10px; /* Outer spacing */
+    margin-top: 5%;
+    margin-bottom: 50px;
+}
+
+.explore-section {
+    margin-bottom: 30px; /* Space between each section */
+    width: 100%; /* Full width for better alignment */
+    max-width: 400px; /* Limit width for better aesthetics */
+     /* Center title and dropdown */
+}
+
+/* Existing styles for explore-dropdown */
+.explore-dropdown {
+    width: 100%; /* Full width for dropdown */
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 12px;
+    border: 2px solid #ddd;
+    background-color: #f9f9f9;
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 10px;
+}
+
+.explore-dropdown:focus {
+    outline: none;
+    border-color: #4CAF50; /* Highlight border on focus */
+    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow on focus */
+}
+
+.explore-dropdown:hover {
+    border-color: #000c01; /* Highlight border on hover */
+}
+
+.explore-dropdown option {
+    padding: 20px;
+    background-color: #fff;
+    font-size: 15px;
+    color: #666;
+}
+
+/* Add custom arrow */
+.explore-dropdown::after {
+    content: '▼';
+    position: absolute;
+    right: 15px;
+    top: 18px;
+    font-size: 12px;
+    color: #666;
+    pointer-events: none;
+}
+
+/* Existing styles for explore-title */
+.explore-title {
+    font-weight:bold;
+    color: #000000; /* Title color */
+    margin-bottom: 10px; /* Space below title */
+    font-size: 16px;
+}

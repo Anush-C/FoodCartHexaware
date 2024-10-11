@@ -1,0 +1,148 @@
+/* Login.css */
+
+/* Container styles */
+.login-container {
+  margin: 3rem auto;
+  max-width: 350px; /* Compact and centered layout */
+  padding: 2rem 2rem;
+  border: 1px solid #dbdbdb; /* Subtle gray border */
+  border-radius: 12px; /* More rounded corners for modern look */
+  background-color: #fff; /* White background for cleanliness */
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Slightly elevated shadow */
+  animation: fadeInUp 0.7s ease-out; /* Smooth fade-in and slide animation */
+}
+
+/* Logo section */
+.login-logo {
+  margin-bottom: 2rem;
+}
+
+.login-logo img {
+  max-width: 180px; /* Adjust logo size */
+  height: auto;
+}
+
+/* Animation for the login container */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Form styling */
+.login-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* More space between form fields */
+}
+
+.login-container input {
+  padding: 12px 14px; /* Extra padding for larger input fields */
+  border: 1px solid #dbdbdb;
+  border-radius: 5px;
+  background-color: #fafafa; /* Light gray background inside inputs */
+  font-size: 14px;
+  color: #333; /* Darker text color for readability */
+  transition: background-color 0.3s, border-color 0.3s; /* Smooth transitions */
+}
+
+.login-container input:focus {
+  outline: none;
+  border-color: #b2b2b2; /* Slightly darker border when focused */
+  background-color: #fff; /* White background on focus for clarity */
+}
+
+.login-button {
+  padding: 12px;
+  background-color: #0095f6; /* Instagram blue */
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  margin-bottom: 20px; /* Added margin to separate login button from Forgot Password */
+}
+
+.login-button:hover {
+  background-color: #007ac6; /* Slightly darker blue on hover */
+  transform: scale(1.03); /* Slight zoom effect on hover */
+}
+
+/* Separator for "OR" */
+.or-separator {
+  display: flex;
+  align-items: center;
+  color: #8e8e8e;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+.or-separator::before,
+.or-separator::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #dbdbdb;
+  margin: 0 10px;
+}
+
+/* Forgot password link */
+.forgot-password {
+  font-size: 12px; /* Smaller font size */
+  font-family: 'Helvetica Neue', Arial, sans-serif; /* Instagram's default font style */
+  color: #00376b; /* Instagram's dark blue */
+  margin-top: 30px; /* Added more space above forgot password */
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+  color: #007ac6; /* Slightly brighter blue on hover */
+}
+
+/* Sign-up prompt */
+.sign-up {
+  margin-top: 1.5rem;
+  font-size: 14px;
+  color: #262626; /* Darker text for the sign-up prompt */
+}
+
+.sign-up a {
+  color: #0095f6;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.sign-up a:hover {
+  text-decoration: underline;
+}
+
+/* App download section */
+.app-download {
+  margin-top: 2rem;
+  font-size: 12px;
+  color: #8e8e8e;
+}
+
+/* Responsive tweaks */
+@media screen and (max-width: 500px) {
+  .login-container {
+    padding: 1.5rem;
+    max-width: 300px; /* Shrinks container for small screens */
+  }
+
+  .login-logo img {
+    max-width: 150px; /* Adjust logo size for small screens */
+  }
+
+  .login-button {
+    padding: 10px;
+  }
+}

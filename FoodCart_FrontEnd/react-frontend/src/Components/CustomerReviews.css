@@ -1,0 +1,40 @@
+.reviews-container {
+    background-color: #fff; /* Background color */
+    border: 1px solid #ddd; /* Light gray border */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px; /* Inner spacing */
+    margin: 10px; /* Outer spacing */
+    margin-top: 10px;
+}
+h2 {
+    margin-bottom: 15px; /* Spacing below the title */
+    font-size: 24px; /* Title font size */
+}
+
+.review-card {
+    background-color: #fff; /* White background for each review */
+    border-radius: 8px; /* Rounded corners for review cards */
+    padding: 15px; /* Inner padding */
+    margin-bottom: 10px; /* Spacing between reviews */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Light shadow */
+}
+
+.review-header {
+    display: flex; /* Flexbox layout */
+    justify-content: space-between; /* Space between elements */
+    align-items: center; /* Center vertically */
+}
+
+.customer-name {
+    font-weight: bold; /* Bold customer name */
+}
+
+.star-rating {
+    color: #FFD700; /* Gold color for stars */
+}
+
+.review-text {
+    margin-top: 10px; /* Spacing above review text */
+    font-style: italic; /* Italic text for review */
+}

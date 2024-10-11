@@ -1,0 +1,40 @@
+/* ItemDetail.css */
+
+.item-detail {
+    padding: 20px; /* Padding for the detail container */
+    background-color: #ffffff; /* White background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    max-width: 600px; /* Maximum width for the detail view */
+    margin: auto; /* Center the container */
+  }
+  
+  .item-detail h1 {
+    font-size: 24px; /* Font size for the item name */
+    color: #333; /* Dark text color */
+    margin-bottom: 15px; /* Space below the title */
+  }
+  
+  .item-detail p {
+    font-size: 16px; /* Font size for details */
+    color: #555; /* Medium gray text color */
+    line-height: 1.5; /* Space between lines for readability */
+    margin: 10px 0; /* Space above and below each paragraph */
+  }
+  
+  .item-detail strong {
+    color: #ff5722; /* Primary color for labels */
+  }
+  
+  .error-message {
+    color: #f44336; /* Red color for error message */
+    margin-top: 20px; /* Space above error message */
+    text-align: center; /* Center the error message */
+  }
+  
+  .loading {
+    text-align: center; /* Center loading message */
+    font-size: 18px; /* Font size for loading message */
+    color: #666; /* Gray color for loading message */
+  }
+  

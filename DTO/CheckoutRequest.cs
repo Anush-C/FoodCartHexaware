@@ -6,14 +6,13 @@ namespace FoodCart_Hexaware.DTO
     {
         
             public int UserId { get; set; } 
-            public int RestaurantID { get; set; } 
+
+            public int RestaurantID { get; set; }
             public string ShippingAddress { get; set; } 
             public string PaymentMethod { get; set; } 
 
 
-            public CardPaymentDTO? CardPayment { get; set; }
-            public NetBankingPaymentDTO? NetBankingPayment { get; set; }
-            public UpiPaymentDTO? UpiPayment { get; set; }
-        
+           public string StripePaymentMethodId { get; set; }
+
     }
 }

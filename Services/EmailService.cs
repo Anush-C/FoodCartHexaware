@@ -1,39 +1,67 @@
-﻿using System.Net.Mail;
-using System.Threading.Tasks;
+﻿using MailKit.Net.Smtp;
+using MimeKit;
+using Microsoft.Extensions.Configuration;
+using FoodCart_Hexaware.Services;
 
-public class EmailService
+public class EmailService : IEmailService
 {
-    private readonly string _smtpServer;
-    private readonly int _port;
-    private readonly string _username;
-    private readonly string _password;
-    private readonly string _fromAddress;
+    private readonly IConfiguration _configuration;
 
-    public EmailService(string smtpServer, int port, string username, string password, string fromAddress)
+    public EmailService(IConfiguration configuration)
     {
-        _smtpServer = smtpServer;
-        _port = port;
-        _username = username;
-        _password = password;
-        _fromAddress = fromAddress;
+        _configuration = configuration;
     }
 
-    public async Task SendEmailAsync(string toAddress, string subject, string htmlMessage)
+    public async Task SendEmailAsync(string toEmail, string subject, string message, bool isHtml = false)
     {
-        var message = new MailMessage
-        {
-            From = new MailAddress(_fromAddress),
-            Subject = subject,
-            Body = htmlMessage,
-            IsBodyHtml = true
-        };
-        message.To.Add(toAddress);
+        var emailMessage = new MimeMessage();
 
-        using (var client = new SmtpClient(_smtpServer, _port))
+        emailMessage.From.Add(new MailboxAddress(
+            _configuration["SmtpSettings:SenderName"],
+            _configuration["SmtpSettings:SenderEmail"]
+        ));
+        emailMessage.To.Add(new MailboxAddress(string.Empty, toEmail));
+        emailMessage.Subject = subject;
+
+        var bodyBuilder = new BodyBuilder();
+
+        // Set the body format based on isHtml flag
+        if (isHtml)
         {
-            client.Credentials = new System.Net.NetworkCredential(_username, _password);
-            client.EnableSsl = true;
-            await client.SendMailAsync(message);
+            bodyBuilder.HtmlBody = message; // Set HTML body
+        }
+        else
+        {
+            bodyBuilder.TextBody = message; // Fallback to plain text
+        }
+
+        emailMessage.Body = bodyBuilder.ToMessageBody();
+
+        using (var client = new SmtpClient())
+        {
+            try
+            {
+                // Connect to the SMTP server
+                await client.ConnectAsync(
+                    _configuration["SmtpSettings:Host"],
+                    int.Parse(_configuration["SmtpSettings:Port"]),
+                    bool.Parse(_configuration["SmtpSettings:EnableSSL"])
+                );
+
+                // Authenticate
+                await client.AuthenticateAsync(
+                    _configuration["SmtpSettings:Username"],
+                    _configuration["SmtpSettings:Password"]
+                );
+
+                // Send the email
+                await client.SendAsync(emailMessage);
+            }
+            finally
+            {
+                // Disconnect
+                await client.DisconnectAsync(true);
+            }
         }
     }
 }
